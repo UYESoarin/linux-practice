@@ -16,6 +16,15 @@ void sigterm_handler(int signo)
 
 int main(void)
 {
+    /* 忽略SIGINT信号，防止按Ctrl+C时子进程直接退出 */
+    signal(SIGINT, SIG_IGN); 
+    
+    /* 注册SIGTERM处理函数 */
+    if (signal(SIGTERM, sigterm_handler) == SIG_ERR) {
+        perror("signal");
+        exit(EXIT_FAILURE);
+    }
+    
     /* ====== 使用signal注册SIGTERM信号处理函数 ====== */
     if (signal(SIGTERM, sigterm_handler) == SIG_ERR) {
         perror("signal");
