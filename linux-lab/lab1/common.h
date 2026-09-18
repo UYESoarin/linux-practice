@@ -1,13 +1,13 @@
-/* common.h — 公共头文件 */
-#ifndef COMMON_H
+// common.h - public header
+#ifdef COMMON_H
 #define COMMON_H
 
-#include <stdio.h>    // 标准输入输出
-#include <stdlib.h>   // 通用工具、exit
-#include <unistd.h>   // UNIX系统调用：fork、execl、sleep、getpid
-#include <signal.h>   // 信号相关：sigaction、signal、kill、sigemptyset
-#include <sys/types.h>// 系统类型定义：pid_t
-#include <sys/wait.h> // waitpid，以及WIFEXITED/WEXITSTATUS等宏
-#include <errno.h>    // errno 全局错误变量，EINTR
+#include <stdio.h>  // standard I/O
+#include <stdlib.h>  // exit
+#include <unistd.h>  // UNIX: fork, execl, sleep, getpid
+#include <signal.h>  // signal, sigaction, sigemptyset, kill
+#include <sys/types.h>  // system types: pid_t
+#include <sys/wait.h>  // wait, waitpit, WIFEXITED, WEXITSTATUS
+#include <errno.h>  // EINTR
 
 #endif
