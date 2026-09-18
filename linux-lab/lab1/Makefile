@@ -3,7 +3,7 @@
 # Configure Field (lab1 process management)
 CC = gcc                # compiler
 CFLAGS = -Wall -g       # warning + debug
-TARGET = main child     # out files name
+TARGETS = main child     # out files name
 HEADERS = common.h      # pulic header file
 MAIN_EXE = main         # run file
 
