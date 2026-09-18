@@ -1,28 +1,22 @@
-# Makefile — 实验一进程管理
-# 注意：命令行前必须是Tab键，不能是空格
+# Makefile
 
-CC = gcc
-CFLAGS = -Wall -g
-TARGETS = main child
+# Configure Field (lab1 process management)
+CC = gcc                # compiler
+CFLAGS = -Wall -g       # warning + debug
+TARGET = main child     # out files name
+HEADERS = common.h      # pulic header file
+MAIN_EXE = main         # run file
 
-# 默认目标：编译所有程序
-all: $(TARGETS)
-
-# 编译main程序
-main: main.c common.h
-	$(CC) $(CFLAGS) -o main main.c
-
-# 编译child程序
-child: child.c common.h
-	$(CC) $(CFLAGS) -o child child.c
-
-# 清理生成的文件
-clean:
-	rm -f $(TARGETS)
-
-# 编译并运行
-run: all
-	./main
-
-# 声明伪目标（不对应实际文件）
+# Rule Field (Tab)
 .PHONY: all clean run
+
+all: $(TARGETS)         #default dest
+
+%: %.c $(HEADERS)		# `make (xxxx)`
+    $(CC) $(CFLAGS) $< -o $@
+
+clean:					# `make clean`
+    rm -f $(TARGETS)
+
+run: all				# `make run`
+    ./$(MAIN_EXE)
