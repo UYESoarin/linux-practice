@@ -13,10 +13,10 @@ MAIN_EXE = main         # run file
 all: $(TARGETS)         #default dest
 
 %: %.c $(HEADERS)		# `make (xxxx)`
-    $(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $< -o $@
 
 clean:					# `make clean`
-    rm -f $(TARGETS)
+	rm -f $(TARGETS)
 
 run: all				# `make run`
-    ./$(MAIN_EXE)
+	./$(MAIN_EXE)
