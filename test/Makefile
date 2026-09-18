@@ -1,4 +1,18 @@
-hello:hello.c
-	gcc hello.c -o hello
+CC = gcc
+CFLAGS = -Wall -g
+TARGETS = hello
+HEADERS = 
+MAIN_EXE = hello
+
+.PHONY: all clean run
+
+all: $(TARGETS)
+
+%: %.c $(HEADERS)
+	$(CC) $(CFLAGS) -o $@ $<
+
 clean:
-	rm -f hello
+	rm -f $(TARGETS)
+
+run:
+	./$(MAIN_EXE)
