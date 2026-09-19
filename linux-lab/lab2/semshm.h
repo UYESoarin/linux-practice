@@ -1,25 +1,5 @@
-// semshm.h - shared memory + semaphore synchronization
-#ifndef SEMSHM_H
-#define SEMSHM_H
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/sem.h>
-#include <sys/shm.h>
-#include <errno.h>
-
-#define SHM_SIZE 1024
-
-// union: init sem with semctl
-union semun{
-    int val;    //init val
-    struct semid_ds* buf;
-    unsigned short* array;
-};
+// semshm.c - func definition
+#include "semshm.h"
 
 // create sem set
 int creatsem(const char* pathname, int proj_id, int members, int init_val){
@@ -116,5 +96,3 @@ int creatshm(char* pathname, int proj_id, size_t size){
 int deleteshm(int sid){
     return shmctl(sid, IPC_RMID, NULL);
 }
-
-#endif
