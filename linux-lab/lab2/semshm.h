@@ -14,7 +14,7 @@
 #include <errno.h>
 
 #define SHM_SIZE      1024
-#define IPC_KEY_PATH  "/tmp/semshm_lab2_key"  // fixed path for ftok
+#define IPC_KEY_PATH  "/tmp"  // fixed path for ftok
 
 // compatible with system-defined union semun
 #if defined(__GNU_LIBRARY__) && !defined(_SEM_SEMUN_UNDEFINED)
