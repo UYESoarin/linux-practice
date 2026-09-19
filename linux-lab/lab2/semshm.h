@@ -19,7 +19,7 @@ union semun{
     int val;    //init val
     struct semid_ds* buf;
     unsigned short* array;
-}
+};
 
 // create sem set
 int creatsem(const char* pathname, int proj_id, int members, int init_val){
@@ -28,7 +28,7 @@ int creatsem(const char* pathname, int proj_id, int members, int init_val){
     union semun semopts;
 
     // ftok: generate unique ipc key based on dirpath and project id
-    if((msgkey =ftok(pathname, proj_id)) == -1){
+    if((msgkey = ftok(pathname, proj_id)) == -1){
         perror("ftok error");
         return -1;
     }
@@ -41,12 +41,15 @@ int creatsem(const char* pathname, int proj_id, int members, int init_val){
     semopts.val = init_val;
     for(int i=0;i<members;i++){
         // int semctl(int semid, int semnum, int cmd, ...)
-        semctl(sid, i, SETVAL, semopts);
+        if(semctl(sid, i, SETVAL, semopts)){
+            perror("semctl SETVAL error");
+            return -1;
+        }
     }
     return sid;
 }
 
-// open sem set
+// open existing sem set
 int opensem(const char* pathname, int proj_id){
     key_t msgkey;
     int sid;
@@ -54,8 +57,8 @@ int opensem(const char* pathname, int proj_id){
         perror("ftok error");
         return -1;
     }
-    if((sid = semget(msgkey, 0, 0666) == -1)){
-        perror("semget error");
+    if((sid = semget(msgkey, 0, 0)) == -1){
+        perror("open semget error");
         return -1;
     }
     return sid;
@@ -80,7 +83,7 @@ int sem_v(int semid, int index){
     sbuf.sem_num = index;
     sbuf.sem_op = 1;    // +1 = V
     sbuf.sem_flg = 0;
-    if(semop(semid, &sbuf, 1)==-1){
+    if(semop(semid, &sbuf, 1) == -1){
         perror("sem_v error");
         return -1;
     }
