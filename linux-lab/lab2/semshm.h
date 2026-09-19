@@ -1,3 +1,4 @@
+// semshm.h - shared memory & semaphore helper
 #ifndef SEMSHM_H
 #define SEMSHM_H
 
@@ -5,14 +6,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <signal.h>
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/sem.h>
 #include <sys/shm.h>
 #include <errno.h>
 
-#define SHM_SIZE 1024
-// compatible
+#define SHM_SIZE      1024
+#define IPC_KEY_PATH  "/tmp/semshm_lab2_key"  // fixed path for ftok
+
+// compatible with system-defined union semun
 #if defined(__GNU_LIBRARY__) && !defined(_SEM_SEMUN_UNDEFINED)
 #else
 union semun {
@@ -24,11 +28,12 @@ union semun {
 
 // declaration
 int creatsem(const char *pathname, int proj_id, int members, int init_val);
-int opensem(const char *pathname, int proj_id);
-int sem_p(int semid, int index);
-int sem_v(int semid, int index);
+int opensem (const char *pathname, int proj_id);
+int sem_p   (int semid, int index);
+int sem_v   (int semid, int index);
 int sem_delete(int semid);
 int creatshm(const char *pathname, int proj_id, size_t size);
+int openshm (const char *pathname, int proj_id, size_t size);
 int deleteshm(int sid);
 
 #endif
