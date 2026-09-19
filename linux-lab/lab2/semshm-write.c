@@ -9,21 +9,21 @@ int main(void){
     int semid, shmid;
     char *shmaddr;
     char write_str[SHM_SIZE];
-
+    // 1. create shm - ftok + shmget + shmctl
     if((shmid = creatshm(".", 57, SHM_SIZE)) == -1)
         return -1;
-
+    // 2. map shmaddr - shmat(shmid, 0, kernel assign addr, 0 - RW)
     if((shmaddr = (char *)shmat(shmid, NULL, 0)) == (char *)-1){
         perror("shmat error");
         exit(1);
     }
-
+    // 3. create sem - ftok + semget + semctl
     if((semid = creatsem("./", 39, 2, 0)) == -1){
         if(shmdt(shmaddr) == -1)
             perror("shmdt error");
         return -1;
     }
-
+    // sem idx: 0 - init 1 (writable), 1 - init 0 (nothing to read)
     union semun init_val;
     init_val.val = 1;
     if(semctl(semid, 0, SETVAL, init_val) == -1)
@@ -44,20 +44,21 @@ int main(void){
         if(fgets(write_str, SHM_SIZE, stdin) == NULL)
             break;
 
-        if(write_str[0] == '#'){
+        if(write_str[0] == '#'){    // input '#' ready to exit
             sem_v(semid, 1);
             break;
         }
 
+        // write to shm
         strncpy(shmaddr, write_str, SHM_SIZE - 1);
         shmaddr[SHM_SIZE - 1] = '\0';
         sem_v(semid, 1);
         usleep(1000);
     }
-
+    // clear resource
     sem_delete(semid);
     deleteshm(shmid);
-
+    //detach shared memory
     if(shmdt(shmaddr) == -1)
         perror("shmdt error");
 
