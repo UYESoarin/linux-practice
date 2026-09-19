@@ -14,7 +14,9 @@
 #include <errno.h>
 
 #define SHM_SIZE      1024
-#define IPC_KEY_PATH  "/tmp"  // fixed path for ftok
+// ftok requires an existing file/dir as path.
+// /tmp always exists; proj_id distinguishes different IPC sets.
+#define IPC_KEY_PATH  "/tmp"
 
 // compatible with system-defined union semun
 #if defined(__GNU_LIBRARY__) && !defined(_SEM_SEMUN_UNDEFINED)
