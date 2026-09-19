@@ -9,19 +9,17 @@ int main(){
     int semid, shmid;
     char* shmaddr;
 
-    // 1. 
-    if((shmid = creatshm(".", 57, SHM_SIZE)) == -1)
-        return -1;
+    // 1. get shm
+    if((shmid = creatshm(".", 57, SHM_SIZE)) == -1)return -1;
 
-    // 2. 
+    // 2. map shm
     if((shmaddr = (char*)shmat(shmid, NULL, 0)) == (char*)-1){
         perror("shmat error");
         exit(1);
     }
 
-    // 3.
-    if((semid = opensem("./", 39)) == -1)
-        return -1;
+    // 3. open shm
+    if((semid = opensem("./", 39)) == -1)return -1;
 
     printf("Client (Read) Started\n");
 
