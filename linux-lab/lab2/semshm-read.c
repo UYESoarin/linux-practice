@@ -5,28 +5,31 @@
 */
 #include "semshm.h"
 
-int main(){
+int main(void){
     int semid, shmid;
-    char* shmaddr;
+    char *shmaddr;
 
-    // 1. get shm
-    if((shmid = creatshm(".", 57, SHM_SIZE)) == -1)return -1;
+    if((shmid = creatshm(".", 57, SHM_SIZE)) == -1)
+        return -1;
 
-    // 2. map shm
-    if((shmaddr = (char*)shmat(shmid, NULL, 0)) == (char*)-1){
+    if((shmaddr = (char *)shmat(shmid, NULL, 0)) == (char *)-1){
         perror("shmat error");
         exit(1);
     }
 
-    // 3. open shm
-    if((semid = opensem("./", 39)) == -1)return -1;
+    if((semid = opensem("./", 39)) == -1){
+        if(shmdt(shmaddr) == -1)
+            perror("shmdt error");
+        return -1;
+    }
 
     printf("Client (Read) Started\n");
 
     while(1){
-        sem_p(semid, 1);    // P op
+        if(sem_p(semid, 1) == -1){
+            break;
+        }
 
-        // check exit flag
         if(shmaddr[0] == '#'){
             printf("read: Received `#`\n");
             sem_v(semid, 0);
@@ -34,10 +37,12 @@ int main(){
         }
 
         printf("read: %s", shmaddr);
-
-        sem_v(semid, 0);    // V op
+        sem_v(semid, 0);
         usleep(1000);
     }
+
+    if(shmdt(shmaddr) == -1)
+        perror("shmdt error");
 
     printf("Client Exited\n");
     return 0;
