@@ -12,7 +12,7 @@
 #include <errno.h>
 
 #define SHM_SIZE 1024
-
+// compatible
 #if defined(__GNU_LIBRARY__) && !defined(_SEM_SEMUN_UNDEFINED)
 #else
 union semun {
@@ -22,6 +22,7 @@ union semun {
 };
 #endif
 
+// declaration
 int creatsem(const char *pathname, int proj_id, int members, int init_val);
 int opensem(const char *pathname, int proj_id);
 int sem_p(int semid, int index);
