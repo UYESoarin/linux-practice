@@ -1,6 +1,6 @@
 // semshm.c - function definitions
 #include "semshm.h"
-
+// create sem set and init with init_val
 int creatsem(const char *pathname, int proj_id, int members, int init_val){
     key_t msgkey;
     int sid;
@@ -25,7 +25,7 @@ int creatsem(const char *pathname, int proj_id, int members, int init_val){
     }
     return sid;
 }
-
+// open existing sem set
 int opensem(const char *pathname, int proj_id){
     key_t msgkey;
     int sid;
@@ -41,12 +41,12 @@ int opensem(const char *pathname, int proj_id){
     }
     return sid;
 }
-
+// P op: apply resource, sem - 1, block
 int sem_p(int semid, int index){
     struct sembuf sbuf;
     sbuf.sem_num = index;
     sbuf.sem_op = -1;
-    sbuf.sem_flg = 0;
+    sbuf.sem_flg = 0;        // 0 for block
 
     if(semop(semid, &sbuf, 1) == -1){
         perror("sem_p error");
@@ -54,7 +54,7 @@ int sem_p(int semid, int index){
     }
     return 0;
 }
-
+// V op: release resource, sem + 1, wake up
 int sem_v(int semid, int index){
     struct sembuf sbuf;
     sbuf.sem_num = index;
@@ -67,11 +67,11 @@ int sem_v(int semid, int index){
     }
     return 0;
 }
-
+// delete sem set
 int sem_delete(int semid){
     return semctl(semid, 0, IPC_RMID);
 }
-
+// create or get shm
 int creatshm(const char *pathname, int proj_id, size_t size){
     key_t shmkey;
     int sid;
@@ -87,7 +87,7 @@ int creatshm(const char *pathname, int proj_id, size_t size){
     }
     return sid;
 }
-
+// delete shm
 int deleteshm(int sid){
     return shmctl(sid, IPC_RMID, NULL);
 }
