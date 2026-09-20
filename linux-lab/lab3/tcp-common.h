@@ -2,15 +2,17 @@
 #ifndef TCP_COMMON_H
 #define TCP_COMMON_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <errno.h>
-#include <sys/types.h>
+#include <stdio.h>  // printf, fprintf, perror, fopen, fclose, fwrite, fflush, fgets
+#include <stdlib.h>  // exit, atoi, malloc, free
+#include <string.h>  // memset, memcpy, strcmp, strncmp, strlen
+#include <unistd.h>  // read, write, close, sleep, usleep
+#include <errno.h>  // errno
+#include <sys/types.h>  // pid_t
 #include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+// socket, bind, listen, accept, connect, send, recv,
+// setsockopt, shutdown, SOL_SOCKET, SO_REUSEADDR, AF_INET, SOCK_STREAM
+#include <netinet/in.h>  // inet_ntoa, inet_addr
+#include <arpa/inet.h>  // gethostbyname, struct hostent
 #include <netdb.h>
 
 #define PORT      3339
