@@ -1,0 +1,15 @@
+Linux is a free and open-source operating system.
+The kernel is the core of the operating system.
+System calls are the interface between user and kernel.
+A process is a program in execution.
+Signals provide asynchronous communication between processes.
+Shared memory is the fastest IPC mechanism.
+TCP provides reliable, ordered, and error-checked delivery.
+The fork system call creates a new process.
+Every process has a unique process ID called PID.
+File descriptors are non-negative integers used to access files.
+Sockets enable communication between processes over a network.
+Semaphores are used to synchronize access to shared resources.
+The shell is a command-line interpreter for the operating system.
+Virtual memory allows processes to use more memory than physically available.
+The scheduler decides which process runs next on the CPU.
