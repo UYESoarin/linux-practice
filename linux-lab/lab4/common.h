@@ -34,7 +34,8 @@ static int send_all(int fd, const char *buf, int len) {
 
 // recv line(fd, buf, size) return received Byte num
 // read per Byte to recognize '\n' boundary
-static int recv_line(int fd, char *buf, int size) {
+static int recv_line(int fd, char *buf, int size) __attribute__((unused));
+static int recv_line(int fd, char *buf, int size){
     int total = 0;
     while (total < size - 1) {
         int n = recv(fd, buf + total, 1, 0);
